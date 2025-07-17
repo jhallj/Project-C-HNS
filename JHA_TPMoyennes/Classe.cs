@@ -39,7 +39,7 @@ namespace HNI_TPmoyennes
                 .ToList();
 
             if (moyennesEleves.Count == 0) return 0;
-            return Utils.TruncateToTwoDecimals(moyennesEleves.Average());
+            return Math.Truncate(moyenne * 100) / 100;
         }
 
         public double moyenneGeneral()
@@ -48,7 +48,7 @@ namespace HNI_TPmoyennes
             double sommeMoyennes = matieres
                 .Select((m, index) => moyenneMatiere(index))
                 .Sum();
-            return Utils.TruncateToTwoDecimals(sommeMoyennes / matieres.Count);
+            return Math.Truncate(moyenne * 100) / 100;
         }
     }
 }
