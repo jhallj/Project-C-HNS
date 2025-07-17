@@ -21,34 +21,49 @@ namespace HNI_TPmoyennes
         }
 
         // Méthodes correspondant aux appels dans Program.cs
-        public void ajouterEleve(string prenom, string nom)
-        {
-            eleves.Add(new Eleve(prenom, nom));
-        }
+      public void ajouterEleve(string prenom, string nom)
+{
+    if (eleves.Count >= 30)
+    {
+        Console.WriteLine("La classe est pleine.");
+        return;
+    }
+    eleves.Add(new Eleve(prenom, nom));
+}
 
         public void ajouterMatiere(string matiere)
-        {
-            matieres.Add(matiere);
-        }
+{
+    if (matieres.Count >= 10)
+    {
+        Console.WriteLine("Le nombre maximum de matières est atteint.");
+        return;
+    }
+    matieres.Add(matiere);
+}
 
         public double moyenneMatiere(int idMatiere)
-        {
-            var moyennesEleves = eleves
-                .Where(e => e.notes.Any(n => n.matiere == idMatiere))
-                .Select(e => e.moyenneMatiere(idMatiere))
-                .ToList();
+{
+    var moyennesEleves = eleves
+        .Where(e => e.notes.Any(n => n.matiere == idMatiere))
+        .Select(e => e.moyenneMatiere(idMatiere))
+        .ToList();
 
-            if (moyennesEleves.Count == 0) return 0;
-            return Math.Truncate(moyenne * 100) / 100;
-        }
+    if (moyennesEleves.Count == 0) return 0;
 
-        public double moyenneGeneral()
-        {
-            if (matieres.Count == 0) return 0;
-            double sommeMoyennes = matieres
-                .Select((m, index) => moyenneMatiere(index))
-                .Sum();
-            return Math.Truncate(moyenne * 100) / 100;
-        }
+    double moyenne = moyennesEleves.Average(); 
+    return Math.Truncate(moyenne * 100) / 100;
+}
+       public double moyenneGeneral()
+{
+    if (matieres.Count == 0) return 0;
+
+    double sommeMoyennes = matieres
+        .Select((m, index) => moyenneMatiere(index))
+        .Sum();
+
+    // Il faut calculer la moyenne générale avant de l'utiliser
+    double moyenne = sommeMoyennes / matieres.Count;
+    return Math.Truncate(moyenne * 100) / 100;
+}
     }
 }
