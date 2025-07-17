@@ -20,12 +20,14 @@ namespace HNI_TPmoyennes
             this.notes = new List<Note>();
         }
 
-        // Méthode correspondant à l'appel dans Program.cs
-        internal void AjouterNote(Note n)
-        {
-            notes.Add(n);
-        }
-
+public void ajouterNote(Note n)
+{
+    if (notes.Count >= 200)
+    {
+        return; // Limite atteinte, on n'ajoute plus de note
+    }
+    notes.Add(n);
+}
         public double moyenneMatiere(int idMatiere)
         {
             var notesMatiere = notes.Where(n => n.matiere == idMatiere).ToList();
@@ -35,11 +37,15 @@ namespace HNI_TPmoyennes
         }
 
         public double moyenneGeneral()
-        {
-            var idsMatieres = notes.Select(n => n.matiere).Distinct().ToList();
-            if (idsMatieres.Count == 0) return 0;
-            double sommeMoyennes = idsMatieres.Sum(id => moyenneMatiere(id));
-            return Math.Truncate(moyenne * 100) / 100;
-        }
+{
+    var idsMatieres = notes.Select(n => n.matiere).Distinct().ToList();
+    if (idsMatieres.Count == 0) return 0;
+
+    double sommeMoyennes = idsMatieres.Sum(id => moyenneMatiere(id));
+
+    // Il faut calculer la moyenne avant de l'utiliser
+    double moyenne = sommeMoyennes / idsMatieres.Count;
+    return Math.Truncate(moyenne * 100) / 100;
+}
     }
 }
