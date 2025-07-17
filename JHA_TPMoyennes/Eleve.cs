@@ -31,7 +31,7 @@ namespace HNI_TPmoyennes
             var notesMatiere = notes.Where(n => n.matiere == idMatiere).ToList();
             if (notesMatiere.Count == 0) return 0;
             double moyenne = notesMatiere.Average(n => n.note);
-            return Utils.TruncateToTwoDecimals(moyenne);
+            return Math.Truncate(moyenne * 100) / 100;
         }
 
         public double moyenneGeneral()
@@ -39,7 +39,7 @@ namespace HNI_TPmoyennes
             var idsMatieres = notes.Select(n => n.matiere).Distinct().ToList();
             if (idsMatieres.Count == 0) return 0;
             double sommeMoyennes = idsMatieres.Sum(id => moyenneMatiere(id));
-            return Utils.TruncateToTwoDecimals(sommeMoyennes / idsMatieres.Count);
+            return Math.Truncate(moyenne * 100) / 100;
         }
     }
 }
